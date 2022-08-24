@@ -1,0 +1,40 @@
+h1, h2 {
+    color:#ff4f57;
+}
+ 
+a {
+    color: #ff4f57;
+}
+ 
+table {
+    border-collapse: collapse;
+}
+ 
+table th, table td {
+    padding: 5px;
+}
+ 
+.error {
+    color: red;
+    font-style: italic;
+}
+
+#listEvents_wrapper , #detail_page, #listUser_wrapper {
+	width: 90%;
+    margin: 0 auto;
+    
+   background: white;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+body {
+	background-color: #489c20e0 !important;
+}
+.bg-light{
+	    display: flex;
+    gap: 108px;
+}
+.menu-left{
+	margin-left: 100px;
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Detail User</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+</head>
+<body>
+	<h1>Chi Tiết Người Dùng</h1>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" th:href="@{/event/getListEvents}">Danh Sách Sự Kiện</a>
+		<a class="navbar-brand" th:href="@{/user/getListUser}">Danh Sách Người Dùng</a>
+		<a class="navbar-brand" th:href="@{/user/logout}">Đăng Xuất</a>
+		<a style="padding : 0" th:if="${isLogin}"> <img
+				style="width: 40px; height: 40px; float: left; position: absolute; top: 9px; right: 10px;" th:src="@{/image/user.png}" />
+	</nav>
+	<br />
+	<br />
+	<div th:if="${user}" id="detail_page">
+		<table border="0">
+<!-- 			<tr>
+				<td>ID</td>
+				<td>:</td>
+				<td th:utext="${event.id}">...</td>
+			</tr> -->
+			<!-- <div class="mb-3 row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">ID</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext"
+						id="staticEmail" th:field="${event.id}">
+				</div>
+			</div> -->
+<!-- 			<tr>
+				<td>Address</td>
+				<td>:</td>
+				<td th:utext="${event.address}">...</td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">Tên</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext"
+						id="staticEmail" th:field="${user.name}">
+				</div>
+			</div>
+<!-- 			<tr>
+				<td>Description</td>
+				<td>:</td>
+				<td th:utext="${event.description}">...</td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext"
+						id="staticEmail" th:field="${user.email}">
+				</div>
+			</div>
+
+			<div class="mb-3 row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">Địa Chỉ</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext"
+						id="staticEmail" th:field="${user.address}">
+				</div>
+			</div>
+
+			<div class="mb-3 row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">SĐT</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext"
+						id="staticEmail" th:field="${user.numberPhone}">
+				</div>
+			</div>
+		</table>
+		<br />
+		<br />
+		
+		<div class="container">
+		<!-- Modal Confirm delete event-->
+		<div class="modal fade" id="confirmDeleteModal" tabindex="-1"
+			aria-labelledby="confirmDeleteModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Xác Nhận Xóa người dùng</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+						<div class="modal-body">
+							<table border="0">
+								<div class="mb-3 row">
+									<label for="devicesContribute" class="col-sm-10 col-form-label">Bạn có muốn xóa người dùng này không?</label>
+								</div>
+							</table>
+							<!-- <input type="submit" th:value="${add} ? 'Create' : 'Update'" /> -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Không</button>
+							<!-- <button type="button" data-bs-dismiss="modal" class="btn btn-primary">
+								<a style="color: white; text-decoration: none;" th:href="@{/event/deleteEvent/{id}(id=${event.id})}">Có</a>
+							</button> -->
+							
+							<button type="button" class="btn btn-primary"
+								data-bs-dismiss="modal"><a id="linkDeleteUser"
+								style="color: white; text-decoration: none;">Có</a></button>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+		
+		
+		<!-- <div th:if="not ${allowDelete}"> -->
+<!-- 		<div>
+			<a th:href="@{/event/edit/{id}(id=${event.id})}">Edit</a> <a
+				th:href="@{/event/deleteEvent/{id}(id=${event.id})}">Delete</a>
+		</div> -->
+		<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" th:href="@{/event/edit/{id}(id=${event.id})}">Edit</a> 
+			<a class="navbar-brand" th:href="@{/event/deleteEvent/{id}(id=${event.id})}">Delete</a>
+		</nav> -->
+						
+		<button type="button" class="btn btn-primary" 
+		th:attr="onclick=|deleteUser('${user.id}')|"
+		data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+				Xóa Người Dùng
+		</button>
+		
+		<!--             <form th:if="${allowDelete}" th:action="@{/contacts/{contactId}/delete(contactId=${contact.id})}" method="POST">
+                Delete this contact? <input type="submit" th:value="Yes" />
+            </form> -->
+	</div>
+	<div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+	crossorigin="anonymous"></script>
+	
+	<script>
+	
+		function deleteUser(idUser) {
+			$('#linkDeleteUser').click(function(){
+			    /* $.ajax({url: 'http://localhost:8082/event/joinEventsGet/' + idEvent , success: function(result){
+			      //
+			    }}); */
+			    console.log("test111");
+			    $.get('http://localhost:8081/user/deleteUser/' + idUser ,
+	    		  {
+	    		  },
+	    		  function(data, status){
+	    		    alert("Bạn đã xóa người dùng thành công");
+	    		    //location.reload();
+	    		    window.location.href = 'http://localhost:8081/user/getListUser';
+	    		  });
+			});
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+h1, h2 {
+    color:#ff4f57;
+}
+ 
+a {
+    color: #ff4f57;
+}
+ 
+table {
+    border-collapse: collapse;
+}
+ 
+table th, table td {
+    padding: 5px;
+}
+ 
+.error {
+    color: red;
+    font-style: italic;
+}
+
+#listEvents_wrapper {
+	    background: white;
+    padding: 20px;
+    border-radius: 20px;
+
+	width: 90%;
+    margin: 0 auto;
+}
+
+#formAddEvent {
+	    background: white;
+    padding: 20px;
+    border-radius: 20px;
+	width: 90%;
+    margin: 0 auto;
+}
+
+#detailEvent, #detail_page {
+	width: 90%;
+    margin: 0 auto;
+}
+
+.navbar-brand {
+	margin-left: 10px;
+	font-weight: 600;
+	padding : 0;
+}
+
+body {
+	background-color: #489c20 !important;
+}
+
+.navbar.navbar-expand-lg {
+	padding: 0;
+}
+
+.header-lienhe-ten {
+    line-height: 2.2;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#notify-red {
+	background-color: red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+#list-notify {
+	width: 500px;
+    position: absolute;
+    right: 40px;
+    top: 27px;
+    display : none;
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Sự Kiện</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+       <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+		crossorigin="anonymous">
+	
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet">
+	
+	<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
+		rel="stylesheet">
+	<link
+		href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"
+		rel="stylesheet">
+	
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+		crossorigin="anonymous">
+		
+	  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <span style="margin-left: 190px;" class="header-lienhe-ten">Trả lại màu xanh</span>
+
+			<div>
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<a style="padding : 0" class="navbar-brand" th:href="@{/main}"> <img
+						style="width: 100px; height: 50px" th:src="@{/image/logo.jpg}" />
+					</a>				
+					<a class="navbar-brand" th:href="@{/information}">Thông Tin Chung</a>
+					<a class="navbar-brand" th:href="@{/network}">Kỹ Thuật Xanh</a>
+					<div class="navbar-brand" data-bs-toggle="modal" data-bs-target="#modalEventFunction" 
+			type="button" data-toggle="dropdown">Sự Kiện</div>
+			<div class="container">
+				<!-- Modal -->
+				<div class="modal fade" id="modalEventFunction" tabindex="-1"
+					aria-labelledby="modalEventFunction" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Sự Kiện</h5>
+								<button type="button" class="btn-close"
+									data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<table border="0">
+									  <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/create}">Thêm Sự Kiện</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEvents}">Danh sách các sự kiện có thể tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/listMyEvents}">Danh sách sự kiện của tôi</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsJoined}">Danh sách các sự kiện đã tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsApproval}">Danh sách người dùng cần phê duyệt</a></div>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">Đóng</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+					<a th:if="${isLogin}" class="navbar-brand" th:href="@{/user/logout}">Đăng Xuất</a>
+					<a style="padding : 0" th:if="${isLogin}"> <img
+					style="width: 80px; height: 40px" th:src="@{/image/user.png}" />
+				</nav>
+			</div>
+			<br />
+			<br />
+
+        </header>
+
+        <main style="padding-top:0; background: white;">
+            <section class="slogan">
+                <div class="container">
+                    <div class="slogan-title">
+                        <h1 class="slogan-content">Thông tin chung</h1>
+                    </div>
+                </div>
+
+            </section>
+            <section class="blog">
+                <div class="container">
+                    <div class="blog-main">
+                        <div class="blog-left">
+                            <div class="blog-left-introduce">
+                                <h5 class="blog-left-title">Chương trình hỗ trợ cây thực hiện Tết trồng cây</h5>
+                                <p class="blog-left-date">Đăng vào lúc 16 Tháng Hai, 2022</p>
+                                <p class="blog-left-content">Hiện nay Chương trình Để Trái Đất Mãi Xanh đang thực hiện hỗ trợ cây cho các tổ chức, cá nhân để triển khai chương trình Tết trồng cây năm 2022 với số lượng và loại cây phù hợp hiện có. Tổ chức, cá nhân có nhu cầu xin vui
+                                    lòng liên hệ Chương trình […]</p>
+                                <a class="blog-left-detail" href="#!">xem tiếp </a>
+                            </div>
+
+                            <div class="blog-left-introduce">
+                                <h5 class="blog-left-title">Thư Ngỏ</h5>
+                                <p class="blog-left-date">Đăng vào lúc 16 Tháng Hai, 2022</p>
+                                <p class="blog-left-content">Thư Ngỏ Xin chào các bạn! Chúng mình là nhóm các bạn trẻ có lứa tuổi từ mẫu giáo đến trung học phổ thông, sinh viên và đến từ nhiều vùng miền, nhiều dân tộc của Đất nước Việt Nam tươi đẹp. Nói về phá rừng, các tác hại,
+                                    sự cố lũ lụt, sạt, lở […]</p>
+                                <a class="blog-left-detail" href="#!">xem tiếp </a>
+                                <img src="../image/bgc.png" alt="#!">
+                            </div>
+
+                            <div class="blog-left-introduce">
+                                <h5 class="blog-left-title">Thư Ngỏ</h5>
+                                <p class="blog-left-date">Đăng vào lúc 16 Tháng Hai, 2022</p>
+                                <p class="blog-left-content">Thư Ngỏ Xin chào các bạn! Chúng mình là nhóm các bạn trẻ có lứa tuổi từ mẫu giáo đến trung học phổ thông, sinh viên và đến từ nhiều vùng miền, nhiều dân tộc của Đất nước Việt Nam tươi đẹp. Nói về phá rừng, các tác hại,
+                                    sự cố lũ lụt, sạt, lở […]</p>
+                                <a class="blog-left-detail" href="#!">xem tiếp </a>
+                                <img src="../image/bgc.png" alt="#!">
+                            </div>
+                        </div>
+                        <div class="blog-right">
+                            <div class="blog-right-search">
+                                <input class="blog-search" type="search" placeholder="Tìm kiếm …" value="">
+                                <i class="blog-i fa-solid fa-magnifying-glass"></i>
+                            </div>
+                            <div class="blog-right-row">
+                                <h5 class="blog-right-title">Bài viết mới</h5>
+                                <div class="blog-right-baiviet">
+                                    <ul class="blog-ul">
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Chương trình hỗ trợ cây thực hiện Tết trồng
+                                                cây đấ á</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Thư viện xanh</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">CBL Văn-Thơ Xanh</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Cảm nghĩ Xanh</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Đồng hành xanh</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="blog-right-row">
+                                <h5 class="blog-right-title">Bài viết mới</h5>
+                                <div class="blog-right-baiviet">
+                                    <ul class="blog-ul">
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Chương trình hỗ trợ cây thực hiện Tết trồng
+                                                cây đấ á</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Thư viện xanh</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">CBL Văn-Thơ Xanh</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Cảm nghĩ Xanh</a>
+                                        </li>
+                                        <li class="blog-li">
+                                            <a class="blog-text" href="#!">Đồng hành xanh</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <section class="footer">
+                <div class="container">
+                    <div class="footer-container">
+                        <div class="footer-top">
+                            <span class="footer-content">“Sống xanh” được hiểu nôm na là lối sống lành mạnh, thân thiện
+                                với môi trường. Đối với
+                                trẻ em, tùy theo độ tuổi mà cha
+                                mẹ tìm hiểu và dạy cho con thói quen sống phù hợp, tích cực, thân thiện với thiên nhiên
+                                và góp phần bảo vệ môi trường..</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="footer-bottom">
+                <div class="container">
+                    <div class="footer-bottom-chinh">
+                        <span class="footer-bottom-left">©2022 HL Media Copyright</span>
+                        <div class="footer-bottom-right">
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-github"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+        </footer>
+    </div>
+<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+		integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+</body>
+
+</html>

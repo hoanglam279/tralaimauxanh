@@ -1,0 +1,392 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Event List</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+	
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+
+</head>
+<body>
+	<span style="margin-left: 190px;" class="header-lienhe-ten">Trả lại màu xanh</span>
+
+	<div>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a style="padding : 0" class="navbar-brand" th:href="@{/main}"> <img
+				style="width: 50px; height: 50px" th:src="@{/image/logo.jpg}" />
+			</a>				
+			<a class="navbar-brand" th:href="@{/information}">Thông Tin Chung</a>
+			<a class="navbar-brand" th:href="@{/network}">Kỹ Thuật Xanh</a>
+			<div class="navbar-brand" data-bs-toggle="modal" data-bs-target="#modalEventFunction" 
+			type="button" data-toggle="dropdown">Sự Kiện</div>
+			<div class="container">
+				<!-- Modal -->
+				<div class="modal fade" id="modalEventFunction" tabindex="-1"
+					aria-labelledby="modalEventFunction" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Sự Kiện</h5>
+								<button type="button" class="btn-close"
+									data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<table border="0">
+									  <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/create}">Thêm Sự Kiện</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEvents}">Danh sách các sự kiện có thể tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/listMyEvents}">Danh sách sự kiện của tôi</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsJoined}">Danh sách các sự kiện đã tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsApproval}">Danh sách người dùng cần phê duyệt</a></div>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">Đóng</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="navbar-brand" th:href="@{/user/logout}">Đăng Xuất</a>
+			<a style="padding : 0"> <img th:if="${isLogin}"
+				style="width: 40px; height: 40px" th:src="@{/image/user.png}" />
+			<div th:if="${isLogin}">
+				<div th:if="${!isHaveNotify}">
+					<a style="padding : 0"> <img
+						th:attr="onclick=|showNotify()|"
+						style="width: 55px; height: 40px" th:src="@{/image/notify.png}" />
+				</div>
+				<div th:if="${isHaveNotify}">
+					<a style="padding : 0"> <img
+						th:attr="onclick=|showNotify()|"
+						style="width: 55px; height: 40px" th:src="@{/image/notify.png}" />
+					<div id="notify-red">!</div>
+					<div id="list-notify">
+						<ul class="list-group">
+							<li th:each="event : ${listNotify}" class="list-group-item list-group-item-info">
+								<a th:href="@{/event/getListEventsJoined}" style="text-decoration: none;">
+									Sự kiện <span th:utext="${event.name}" style="font-weight: bold;"></span> đã được người tạo phê duyệt
+								</a>
+								
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<br />
+	<br />
+	
+	
+	<div>
+		<table class="table table-hover table-striped" id="listEvents"
+			style="width: 100%">
+			<thead>
+				<tr>
+					<th>STT</th>
+					<th>Địa Chỉ</th>
+					<th>Mô Tả Sự Kiện</th>
+					<th>Ảnh Nổi Bật	</th>
+					<th>Tên Sự Kiện</th>
+					<th>Thời Gian Bắt Đầu</th>
+					<th>Thời Gian Kết Thúc</th>
+					<th>Số Người Đã Tham Gia</th>
+					<th>Thông Tin Người Tạo</th>
+					<th>Hành Động</th>
+					<th>Thông Tin Sự Kiện</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="event : ${events}">
+					<td th:utext="${event.id}">...</td>
+					<td th:utext="${event.address}">...</td>
+					<td th:utext="${event.description}">...</td>
+					<td><img th:src="@{'' + ${event.image}}"
+						style="width: 100px; height: 50px" alt="" /></td>
+					<td th:utext="${event.name}">...</td>
+					<td
+						th:utext="${#temporals.format(event.timeStart, 'dd-MMM-yyyy hh:mm:ss')}">...</td>
+					<td
+						th:utext="${#temporals.format(event.timeEnd, 'dd-MMM-yyyy hh:mm:ss')}">...</td>
+					<td th:utext="${event.numberUserJoined}">...</td>
+					
+					<td><a th:href="@{/user/detailUser/{id}(id=${event.idUser})}">Thông tin chủ sự kiện</a></td>
+
+					<!-- 					<button th:case="'0'" type="button" class="btn btn-primary">
+							<a th:href="@{/event/JoinEvents/{id}(id=${event.id})}" style="color: white; text-decoration: none;">Join Events</a>
+					</button> -->
+					<td th:switch="${event.statusMax}">
+						<button th:case="'0'" type="button" class="btn btn-primary"
+							th:attr="onclick=|joinEvents('${event.id}')|"
+							data-bs-toggle="modal" data-bs-target="#confirmModal">
+							Tham Gia</button>
+						<button th:case="*" type="button" class="btn btn-secondary"
+							data-bs-toggle="modal" data-bs-target="#NotifyModalExeedMax">
+							Tham Gia</button>
+					</td>
+					<td><a th:href="@{/event/detailEvent/{id}(id=${event.id})}">Chi tiết sự kiện</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br />
+	<br />
+	<div>
+		<nobr>
+			<!-- <span th:if="${hasPrev}"><a th:href="@{/contacts?page={prev}(prev=${prev})}">Prev</a>&nbsp;&nbsp;&nbsp;</span> 
+                <span th:if="${hasNext}"><a th:href="@{/contacts?page={next}(next=${next})}">Next</a></span> -->
+		</nobr>
+	</div>
+	
+	
+	<div class="container">
+		<!-- Modal -->
+		<div class="modal fade" id="NotifyModalExeedMax" tabindex="-1"
+			aria-labelledby="NotifyModalExeedMax" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Thông Báo</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+						<div class="modal-body">
+							<table border="0">
+								<div class="mb-3 row">
+									<label for="devicesContribute" class="col-sm-10 col-form-label">Số người tham gia đã đủ, bạn không thể tham gia sự kiện này được.</label>
+								</div>
+							</table>
+							<!-- <input type="submit" th:value="${add} ? 'Create' : 'Update'" /> -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Đóng</button>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="container">
+		<!-- Modal -->
+		<div class="modal fade" id="confirmModal" tabindex="-1"
+			aria-labelledby="confirmModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Xác Nhận Tham Gia</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+						<div class="modal-body">
+							<table border="0">
+								<div class="mb-3 row">
+									<label for="devicesContribute" class="col-sm-10 col-form-label">Bạn có muốn tham gia sự kiện này không?</label>
+								</div>
+							</table>
+							<!-- <input type="submit" th:value="${add} ? 'Create' : 'Update'" /> -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Không</button>
+							<input type="submit" data-bs-dismiss="modal" data-bs-toggle="modal" 
+							data-bs-target="#confirmAttribute" class="btn btn-primary" value="Có" />
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="container">
+		<!-- Modal -->
+		<div class="modal fade" id="confirmAttribute" tabindex="-1"
+			aria-labelledby="confirmAttribute" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Xác Nhận Đóng Góp Thiết Bị</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+						<div class="modal-body">
+							<table border="0">
+								<div class="mb-3 row">
+									<label for="devicesContribute" class="col-sm-10 col-form-label">Bạn có muốn Đóng Góp Thiết Bị không</label>
+								</div>
+							</table>
+							<!-- <input type="submit" th:value="${add} ? 'Create' : 'Update'" /> -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal"><a id="linkJoinWithOut"
+								style="color: white; text-decoration: none;">Tham Gia và không đóng góp</a></button>
+							<input type="submit" data-bs-dismiss="modal" data-bs-toggle="modal" 
+							data-bs-target="#modalJoinEvents" class="btn btn-primary" value="Có" />
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- Modal -->
+	<div class="container">
+		<!-- Modal -->
+		<div class="modal fade" id="modalJoinEvents" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Đóng Góp Thiết Bị Vật Tư</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<form id="formEventJoins" th:object="${eventJoin}" method="POST">
+						<div class="modal-body">
+							<table border="0">
+								<div class="mb-3 row">
+									<label for="devicesContribute" class="col-sm-2 col-form-label">Thiết Bị</label>
+									<div class="col-sm-10">
+										<input type="text" th:field="*{contibuteDevices}"
+											class="form-control" id="devicesContribute">
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label for="number" class="col-sm-2 col-form-label">Số Lượng</label>
+									<div class="col-sm-10">
+										<input type="text" th:field="*{numberContribute}"
+											class="form-control" id="number">
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label for="number" class="col-sm-2 col-form-label">Tiền</label>
+									<div class="col-sm-10">
+									<input type="number" id="tentacles" name="tentacles"
+       m								in="10" max="100000000000000">
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label for="number" class="col-sm-2 col-form-label">Sức Người</label>
+									<div class="col-sm-10">
+										<input type="text" th:field="*{sucNguoi}"
+											class="form-control" id="number">
+									</div>
+								</div>
+							</table>
+							<!-- <input type="submit" th:value="${add} ? 'Create' : 'Update'" /> -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Đóng</button>
+							<input type="submit" class="btn btn-primary" value="Join Events" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+		integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('#listEvents').DataTable();
+		});
+
+		function joinEvents(idEvent) {
+			$('#formEventJoins').attr('action', '/event/joinEvents/' + idEvent);
+			//linkJoinWithOut
+			//$('#linkJoinWithOut').attr('href', '/event/joinEventsGet/' + idEvent);
+			
+			$("#linkJoinWithOut").click(function(){
+			    /* $.ajax({url: 'http://localhost:8082/event/joinEventsGet/' + idEvent , success: function(result){
+			      //
+			    }}); */
+			    $.post('http://localhost:8082/event/joinEvents/' + idEvent ,
+	    		  {
+	    		  },
+	    		  function(data, status){
+	    		    alert("Chúc mừng bạn đã tham gia Event thành công");
+	    		    location.reload();
+	    		  });
+			});
+		}
+		
+		$('#formEventJoins').on('submit',function(e){
+		    e.preventDefault();
+		    $.ajax({
+		        type     : "POST",
+		        cache    : false,
+		        url      : $(this).attr('action'),
+		        data     : $(this).serialize(),
+		        success  : function(data) {
+		            //$(".printArea").empty().append(data).css('visibility','visible');
+		            $('#modalJoinEvents').modal('hide');
+		            setTimeout(susscessCallback, 1000);
+		        	//alert("Chúc mừng bạn đã tham gia Event thành công");
+		        }
+		    });
+		});
+		function susscessCallback() {
+			alert('Chúc mừng bạn đã tham gia Event thành công');
+        	location.reload();
+		}
+		
+		function showNotify() {
+			//notify-red
+			$('#notify-red').css("display", "none");
+			if ("block" != $('#list-notify').css("display")) {
+				$('#list-notify').css("display", "block");
+			} else {
+				$('#list-notify').css("display", "none");
+			}
+			$.get('http://localhost:8082/event/showNotify',
+    		  {
+    		  },
+    		  function(data, status){
+    		    
+    		  });
+		}
+	</script>
+</body>
+</html>

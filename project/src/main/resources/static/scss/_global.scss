@@ -1,0 +1,92 @@
+body {
+    line-height: 1;
+    font-family: $font;
+    color: $light-text;
+    font-weight: 500;
+    background-color: white;
+}
+
+button {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    font-family: $font;
+}
+
+.wrapper {
+    // max-width: 1440px;
+    margin: 0 auto;
+}
+
+.container {
+    max-width: 1410px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 36px;
+    border-radius: 100rem;
+    font-family: $font;
+    line-height: 1;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 700;
+    &--primary {
+        background-color: white;
+        color: #489c20;
+    }
+    &--outline {
+        background-color: transparent;
+        color: $light-text;
+        font-weight: 500;
+        border: 1px solid $light-text;
+    }
+    &--rounded {
+        border-radius: 10px;
+        padding: 17px 65px;
+    }
+    // &--outline_blue {
+    //     border: 1px solid $blue-color;
+    // }
+}
+
+.heading {
+    font-weight: 700;
+    font-size: 40px;
+    line-height: calc(57 / 40);
+    color: $light-text;
+}
+
+.heading-small {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: calc(24 / 16);
+    color: $light-text;
+}
+
+.text {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: calc(20 / 14);
+    color: $light-text;
+}
+
+.text-small {
+    font-size: 14px;
+    line-height: calc(24 / 14);
+    color: $light-text;
+    font-weight: 600;
+}
+
+.boxed {
+    max-width: 864px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}

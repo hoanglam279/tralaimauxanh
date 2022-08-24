@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${add} ? 'Create a Event' : 'Edit a Event'" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+	
+   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+		crossorigin="anonymous">
+	
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet">
+	
+	<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
+		rel="stylesheet">
+	<link
+		href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"
+		rel="stylesheet">
+	
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+		crossorigin="anonymous">
+		
+	  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+</head>
+<body>
+	<span style="margin-left: 190px;" class="header-lienhe-ten" th:text="${add} ? 'Thêm Sự Kiện Mới' : 'Cập Nhật Sự Kiện'"></span>
+
+	<div>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a style="padding : 0" class="navbar-brand" th:href="@{/main}"> <img
+				style="width: 50px; height: 50px" th:src="@{/image/logo.jpg}" />
+			</a>				
+			<a class="navbar-brand" th:href="@{/information}">Thông Tin Chung</a>
+			<a class="navbar-brand" th:href="@{/network}">Kỹ Thuật Xanh</a>
+			<div class="navbar-brand" data-bs-toggle="modal" data-bs-target="#modalEventFunction" 
+			type="button" data-toggle="dropdown">Sự Kiện</div>
+			<div class="container">
+				<!-- Modal -->
+				<div class="modal fade" id="modalEventFunction" tabindex="-1"
+					aria-labelledby="modalEventFunction" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Sự Kiện</h5>
+								<button type="button" class="btn-close"
+									data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<table border="0">
+									  <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/create}">Thêm Sự Kiện</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEvents}">Danh sách các sự kiện có thể tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/listMyEvents}">Danh sách sự kiện của tôi</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsJoined}">Danh sách các sự kiện đã tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsApproval}">Danh sách người dùng cần phê duyệt</a></div>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">Đóng</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="navbar-brand" th:href="@{/user/logout}">Đăng Xuất</a>
+			<a style="padding : 0" th:if="${isLogin}"> <img
+				style="width: 40px; height: 40px" th:src="@{/image/user.png}" />
+		</nav>
+	</div>
+	<br />
+	<br />
+	<form id="formAddEvent"
+		th:object="${event}" method="POST">
+		<table border="0">
+			<input type="hidden" th:field="*{id}" />
+			<!-- 			<tr>
+				<td>Address</td>
+				<td>:</td>
+				<td><input type="text" th:field="*{address}" /></td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">Địa Chỉ</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{address}" class="form-control" required>
+				</div>
+			</div>
+			<!-- 			<tr>
+				<td>Description</td>
+				<td>:</td>
+				<td><input type="text" th:field="*{description}" /></td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">Mô Tả Sự Kiện</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{description}" class="form-control" required>
+				</div>
+			</div>
+			<!-- 			<tr>
+				<td>Image</td>
+				<td>:</td>
+				<td><input type="text" th:field="*{image}" /></td>
+			</tr> -->
+			<div class="mb-3 row" style="width: 100%; display: -webkit-box;">
+				<label for="formFile" class="form-label">Ảnh Nổi Bật</label> 
+				<input style="width: 100px; height: 38px; margin-left: 61px;"
+					class="form-control" type="file" accept=".jpg, .png, .gif"
+					id="formFile"> <img id="imageId"
+					th:src="@{'' + ${event.image}}"
+					style="width: 100px; height: 50px" alt="" /> <input type="hidden"
+					id="imageEvent" name="imageEvent" th:field="*{image}">
+			</div>
+			<!-- 			<tr>
+				<td>Name</td>
+				<td>:</td>
+				<td><input type="text" th:field="*{name}" size="50" /></td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">Tên Sự Kiện</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{name}" class="form-control" required>
+				</div>
+			</div>
+			<!-- 			<tr>
+				<td>Time Start</td>
+				<td></td>
+				<td><input type="date" th:field="*{timeStart}" /></td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">Thời Gian Bắt Đầu</label>
+				<div class="col-sm-10">
+					<input type="datetime-local" th:field="*{timeStart}" class="form-control" required>
+				</div>
+			</div>
+			<!-- 			<tr>
+				<td>Time End</td>
+				<td></td>
+				<td><input type="date" th:field="*{timeEnd}" /></td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">Thời Gian Kết Thúc</label>
+				<div class="col-sm-10">
+					<input type="datetime-local" th:field="*{timeEnd}" class="form-control" required>
+				</div>
+			</div>
+			<!-- 			<tr>
+				<td>Number User Join</td>
+				<td>:</td>
+				<td><input type="text" th:field="*{umberUserJoin}" /></td>
+			</tr> -->
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">Số Lượng Tham Gia Tối Đa</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{umberUserJoin}" class="form-control" required>
+				</div>
+			</div>
+			
+			<div class="mb-3 row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">Tình Trạng</label>
+				<div class="col-sm-10" th:switch="${event.statusProcess}"> 
+					<input th:case="'0'" type="text" readonly class="form-control-plaintext"
+						id="staticEmail" value="Sự kiện chưa được phê duyệt">
+					<input th:case="'1'" type="text" readonly class="form-control-plaintext"
+						id="staticEmail" value="Sự kiện đã được duyệt, nhưng chưa bắt đầu">
+					<input th:case="'2'" type="text" readonly class="form-control-plaintext"
+						id="staticEmail" value="Sự kiện đang diễn ra">
+					<input th:case="'3'" type="text" readonly class="form-control-plaintext"
+						id="staticEmail" value="Sự kiện đã kết thúc">
+				</div>
+			</div>
+		</table>
+		<!-- <input type="submit" th:value="${add} ? 'Create' : 'Update'" /> -->
+		
+		<input th:if="${add}" type="submit" id="buttonType" class="btn btn-primary"
+			value="Create" />
+		<div th:if="${!add}" th:switch="${event.statusProcess}">
+			<input th:case="'0'" type="submit" id="buttonType" class="btn btn-primary"
+				value="Update" />
+			<input th:case="'1'" type="submit" id="buttonType" class="btn btn-primary"
+				value="Update" />
+			<input th:case="*" id="buttonTypeDisable" class="btn btn-secondary"
+				data-bs-toggle="modal" data-bs-target="#modalNotifyNotDelete"
+				value="Update" />
+		</div>
+		
+	</form>
+	
+	<div class="container">
+		<!-- Modal -->
+		<div class="modal fade" id="modalNotifyNotDelete" tabindex="-1"
+			aria-labelledby="modalNotifyNotDelete" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Thông Báo</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+						<div class="modal-body">
+							<table border="0">
+								<div class="mb-3 row">
+									<label for="devicesContribute" class="col-sm-10 col-form-label">Sự Kiện này đang diễn ra hoặc đã đóng, nên chỉnh sửa được nữa</label>
+								</div>
+							</table>
+							<!-- <input type="submit" th:value="${add} ? 'Create' : 'Update'" /> -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Đóng</button>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<!-- Check if errorMessage is not null and not empty -->
+	<div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		window.onload = function(e) {
+			if (window.File && window.FileReader && window.FileList
+					&& window.Blob) {
+				//alert('File API supported.!');
+				document.getElementById('formFile').addEventListener("change", convertImage, false);
+			} else {
+				console.log('The File API not supported by this browser.');
+			}
+			
+			$('#formAddEvent').attr('action', '/event/addUpdateEvent');
+			
+			$('#formAddEvent').on('submit',function(e){
+			    e.preventDefault();
+			    $.ajax({
+			        type     : "POST",
+			        cache    : false,
+			        url      : $(this).attr('action'),
+			        //url      : "http://localhost:8082/event/addUpdateEvent",
+			        data     : $(this).serialize(),
+			        success  : function(data) {
+			            //$(".printArea").empty().append(data).css('visibility','visible');
+			           // $('#modalJoinEvents').modal('hide');
+			            setTimeout(susscessCallback, 100);
+			        	//alert("Chúc mừng bạn đã tham gia Event thành công");
+			        }
+			    });
+			});
+			function susscessCallback() {
+				if(document.getElementById("buttonType").value == 'Create') {
+					alert('Bạn đã tạo mới Event thành công');
+				} else {
+					alert('Bạn đã update Event thành công');
+				}
+				
+				window.location.href = 'http://localhost:8082/event/listMyEvents';
+			}
+			
+		};
+
+		function convertImage() {
+			var fileInput = document.getElementById('formFile');
+
+			var reader = new FileReader();
+			reader.readAsDataURL(fileInput.files[0]);
+
+			reader.onload = function() {
+				console.log(reader.result);//base64encoded string
+				document.getElementById("imageEvent").value = reader.result;
+				document.getElementById("imageId").src = reader.result;
+			};
+			reader.onerror = function(error) {
+				console.log('Error: ', error);
+			};
+		}
+	</script>
+</body>
+</html>

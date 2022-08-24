@@ -1,0 +1,36 @@
+.register {
+    text-align: center;
+    justify-content: center;
+    color: black;
+    &-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    &-nhap {
+        border: 1px solid green;
+        border-radius: 5px;
+        padding: 2px 10px;
+        height: 50px;
+        width: 450px;
+    }
+    &-button {
+        margin-bottom: 30px;
+        padding: 14px 100px;
+        background: #489c20;
+        border-radius: 10px;
+        border: none;
+        color: white;
+        margin-top: 50px;
+    }
+    &-button:hover {
+        border: none;
+    }
+    &-row {
+        margin-bottom: 10px;
+    }
+    &-title {
+        margin-left: 365px;
+        width: 100px;
+    }
+}

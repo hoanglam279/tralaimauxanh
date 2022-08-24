@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Event Manager</title>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"
+	rel="stylesheet">
+	
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> -->
+
+</head>
+<body>
+	<span style="margin-left: 190px;" class="header-lienhe-ten">Trả lại màu xanh</span>
+	<div>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a style="padding : 0" class="navbar-brand" th:href="@{/main}"> <img
+				style="width: 50px; height: 50px" th:src="@{/image/logo.jpg}" />
+			</a>				
+			<a class="navbar-brand" th:href="@{/information}">Thông Tin Chung</a>
+			<a class="navbar-brand" th:href="@{/network}">Kỹ Thuật Xanh</a>
+			<div class="navbar-brand" data-bs-toggle="modal" data-bs-target="#modalEventFunction" 
+			type="button" data-toggle="dropdown">Sự Kiện</div>
+			<div class="container">
+				<!-- Modal -->
+				<div class="modal fade" id="modalEventFunction" tabindex="-1"
+					aria-labelledby="modalEventFunction" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Sự Kiện</h5>
+								<button type="button" class="btn-close"
+									data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<table border="0">
+									  <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/create}">Thêm Sự Kiện</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEvents}">Danh sách các sự kiện có thể tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/listMyEvents}">Danh sách sự kiện của tôi</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsJoined}">Danh sách các sự kiện đã tham gia</a></div>
+								      <div class="mb-3 row"><a class="navbar-brand" th:href="@{/event/getListEventsApproval}">Danh sách người dùng cần phê duyệt</a></div>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">Đóng</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="navbar-brand" th:href="@{/user/logout}">Đăng Xuất</a>
+			<a style="padding : 0" th:if="${isLogin}"> <img
+					style="width: 40px; height: 40px" th:src="@{/image/user.png}" />
+		</nav>
+	</div>
+	<br />
+	<br />
+	<div>
+		<table class="table table-hover table-striped" id="listEvents"
+			style="width: 100%">
+			<thead>
+				<tr>
+					<th>STT</th>
+					<th>Tên Sự Kiện</th>
+					<th>Mô Tả Sự Kiện</th>
+					<th>Thông tin người tham gia</th>
+					<th>Hành Động</th>
+					<th>Hành Động</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="eventJoin : ${eventJoins}">
+					<td th:text="${eventJoin.id}" />
+					<td th:text="${eventJoin.event.name}" />
+					<td th:text="${eventJoin.event.description}" />
+					<!-- <td>
+						<button type="button" class="btn btn-primary"
+							th:attr="onclick=|detailUser(${eventJoin.user.mail}, ${eventJoin.user.name}, ${eventJoin.user.address}, ${eventJoin.user.numberPhone})|"
+							data-bs-toggle="modal" data-bs-target="#modalJoinEvents">
+							Detail User</button>
+					</td> -->
+					<td><a th:href="@{/user/detailUser/{id}(id=${eventJoin.user.id})}">Thông Tin Người Dùng</a></td>
+					<td>
+						<!-- <button type="button" class="btn btn-primary">
+							<a th:href="${'/event/approvalJoinEvents/' + {eventJoin.event.id} + '/' + {eventJoin.user.id}}"
+								style="color: white; text-decoration: none;">Approval Joins</a>
+						</button> -->
+						
+						<button type="button" class="btn btn-primary"
+			                th:attr="onclick=|approvalEvent(${eventJoin.event.id} , ${eventJoin.user.id})|">
+								Duyệt</button>
+					</td>
+					<td>
+						<!-- <button type="button" class="btn btn-primary">
+								<a th:href="${'/event/rejectJoinEvents/' + {eventJoin.event.id} + '/' + {eventJoin.user.id}}" style="color: white; text-decoration: none;">Reject Joins</a>
+						</button> -->
+						<button type="button" class="btn btn-primary"
+			                th:attr="onclick=|rejectJoinEvent(${eventJoin.event.id} , ${eventJoin.user.id})|">
+								Từ Chối</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br />
+	<br />
+	
+	<div>
+		<nobr>
+			<!-- <span th:if="${hasPrev}"><a th:href="@{/contacts?page={prev}(prev=${prev})}">Prev</a>&nbsp;&nbsp;&nbsp;</span> 
+                <span th:if="${hasNext}"><a th:href="@{/contacts?page={next}(next=${next})}">Next</a></span> -->
+		</nobr>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('#listEvents').DataTable();
+		});
+		function approvalEvent(eventId, userId) {
+			$.get('http://localhost:8082/event/approvalJoinEvents/' + eventId + '/' + userId,
+    		  {
+    		  },
+    		  function(data, status){
+    		    alert("Bạn đã phê duyệt thành công");
+    		    //location.reload();
+    		    window.location.href = 'http://localhost:8082/event/getListEventsApproval';
+    		  });
+		}
+		
+		function rejectJoinEvent(eventId, userId) {
+			$.get('http://localhost:8082/event/rejectJoinEvents/' + eventId + '/' + userId,
+    		  {
+    		  },
+    		  function(data, status){
+    		    alert("Bạn đã từ chối thành công");
+    		    //location.reload();
+    		    window.location.href = 'http://localhost:8082/event/getListEventsApproval';
+    		  });
+		}
+
+	</script>
+</body>
+</html>
